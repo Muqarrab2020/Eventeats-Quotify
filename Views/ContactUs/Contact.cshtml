@@ -1,0 +1,104 @@
+﻿@using Microsoft.AspNetCore.Mvc.ViewFeatures
+@model EventEatsQuotify.ViewModels.ContactViewModel
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EventEats Quotify</title>
+
+    <!-- External Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/c58416c086.js" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- External Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/EventEatsQuotify.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center my-5">
+            <div class="col-md-6">
+                <!-- Adjust width of the form -->
+                <div class="main-section">
+                    <div class="card-body">
+                        @if (User.IsInRole("Vendor"))
+                        {
+                            <h2 class="text-center text-light mb-3">Contact Us</h2>
+                        }
+                        else
+                        {
+                            <h2 class="text-center text-light mb-3">Feedback</h2>
+
+                        }
+                        <!-- Display error messages if there are any -->
+                        @if (!string.IsNullOrEmpty(ViewData["ErrorMessage"] as string))
+                        {
+                            <div class="alert alert-danger">
+                                @ViewData["ErrorMessage"]
+                            </div>
+                        }
+
+
+                        <!-- Form content -->
+                        <form method="post" class="p-3" action="/ContactUs/Contact" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="name" class="text-light mb-3">Name</label>
+                                <input type="text" id="name" name="name" class="form-control" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="text-light mb-3">Email</label>
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message" class="text-light mb-3">Message</label>
+                                <textarea id="message" name="message" class="form-control" rows="5" placeholder="Your Message" required></textarea>
+                            </div>
+                            <div class="form-group text-center mt-4">
+                                <button type="submit" class="btn btn-dark bg-pink-menu btn-block">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="loader" class="d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+        <script>
+        $(document).ready(function () {
+            $('form').submit(function () {
+                // Show loader
+                $('#loader').removeClass('d-none');
+            });
+            // Check TempData for user role flag
+            var userRole = "@TempData["UserRole"]";
+
+            // Display appropriate message based on user role
+            if (userRole === "Vendor") {
+                alert("Thank you for contacting us, we'll get back to you soon.");
+            } else if (userRole === "Customer") {
+                alert("Thank you for your valuable feedback!");
+            }
+          
+            $(window).on('load', function () {
+                $('#loader').addClass('d-none');
+            });
+        });
+    </script>
+
+
+</body>
+</html>

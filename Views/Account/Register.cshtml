@@ -1,0 +1,176 @@
+﻿
+
+@model EventEatsQuotify.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EventEatsQuotify</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+Wyb80XY94U6wCJo/U1wnUnY1C5+gz/ixH6"
+          crossorigin="anonymous" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+</head>
+<style>
+    footer{
+        display: none;
+    }
+</style>
+<body>
+    <div class="registerpage d-flex justify-content-center align-items-center my-4">
+        <div class="row justify-content-center align-items-center p-3 " style="height: 80vh; width: 500px">
+            <div class="main-section " style="width:100%">
+                <!-- Adjust width of the form -->
+                <div class=" ">
+                    <div class="pt-3   d-flex flex-column justify-content-center align-items-center">
+                        <h1 class="text-center text-light mb-2">Register</h1>
+                        <p class="w-75 text-secondary text-center">Welcome! To create an account, please fill out the form below. All fields  are required.</p>
+                        <form autocomplete="on" method="post" class="p-3 " action="/Account/Register" enctype="multipart/form-data">
+                            @if (ViewData.ModelState.IsValid == false)
+                            {
+                                <div class="alert alert-danger" role="alert">
+                                    <ul>
+                                        @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                        {
+                                            <li>@modelError.ErrorMessage</li>
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            
+                            <div class="form-group ">
+                                <input type="text" class="form-control " placeholder="Name" required name="Name" />
+                                <div class="invalid-feedback">Please enter your name.</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Email" required name="Email" />
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+
+                                    <input type="password" class="form-control" placeholder="Password" required name="Password" id="password" />
+                                <span class="input-group-text" onclick="togglePasswordVisibility('password', 'toggleIcon')"><i id="toggleIcon" class="far fa-eye"></i></span>
+                                </div>
+                                <div class="invalid-feedback">Please enter a password.</div>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" required name="SelectedRole" id="SelectedRole">
+                                    <option value="">Select Role</option>
+                                    @foreach (var role in Model.AvailableRoles)
+                                    {
+                                        <option value="@role">@role</option>
+                                    }
+                                </select>
+                                <div class="invalid-feedback">Please select a role.</div>
+                            </div>
+
+                            <div id="vendorFields" style="display: none;">
+                                <h4 class="text-center text-pink-menu mb-3">Additional Information for Vendors</h4>
+
+                                <div class="form-group">
+                                    <h5 class="text-light">UPLOAD CNIC FRONT IMAGE: </h5>
+                                    <input type="file" class="form-control" name="CNICImageFile" />
+                                    <div class="invalid-feedback">Please upload CNIC image file.</div>
+                                </div>
+                                <div class="form-group">
+                                    <h5 class="text-light">UPLOAD CNIC BACK IMAGE: </h5>
+                                    <input type="file" class="form-control" name="CNICBackImageFile" />
+                                    <div class="invalid-feedback">Please upload CNIC Back image file.</div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="CNIC Number" name="CNICNumber" />
+                                    <div class="invalid-feedback text-light">Please enter CNIC number.</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <h5 class="text-light">UPLOAD BILLING IMAGE: </h5>
+                                    <input type="file" class="form-control" name="BillingImageFile" />
+                                    <div class="invalid-feedback">Please upload billing image file.</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Shop Address" name="ShopAddress" />
+                                    <div class="invalid-feedback text-light">Please enter shop address.</div>
+                                </div>
+                            </div>
+                            <div class="form-group text-center mt-2">
+                                <button type="submit" class="btn bg-pink-menu text-light btn-block">Register</button>
+                            </div>
+                            <div class="mb-1 text-light text-center">
+                                <span>Already have an account?</span>
+                                <a asp-controller="account" asp-action="Login"
+                                   class="text-decoration-none  text-pink-menu">Login</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="loader" class="d-none">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <!-- Bootstrap 5 JS files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-bu3T0hF5BIofbb9Z+8YG9d6Yt2IuG4V5LJqKM0iW5V9tiLKaW48EIEEx8szk2T9o" crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Script to show/hide additional fields for Vendor role and handle validation -->
+    <script>
+        $(document).ready(function () {
+            $('#SelectedRole').change(function () {
+                if ($(this).val() === 'Vendor') {
+                    $('#vendorFields').slideDown();
+                    $('#vendorFields input').prop('required', true);
+                } else {
+                    $('#vendorFields').slideUp();
+                    $('#vendorFields input').prop('required', false);
+                }
+            });
+        });
+
+        function togglePasswordVisibility(passwordId, toggleIconId) {
+            var passwordInput = document.getElementById(passwordId);
+            var toggleIcon = document.getElementById(toggleIconId);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.remove("fa-eye");
+                toggleIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.remove("fa-eye-slash");
+                toggleIcon.classList.add("fa-eye");
+            }
+        }
+    
+            $(document).ready(function () {
+                $('form').submit(function () {
+                    // Show loader
+                    $('#loader').removeClass('d-none');
+                });
+
+                // Hide loader after successful form submission or page reload
+                $(window).on('load', function () {
+                    $('#loader').addClass('d-none');
+                });
+            });
+    
+    </script>
+</body>
+</html>

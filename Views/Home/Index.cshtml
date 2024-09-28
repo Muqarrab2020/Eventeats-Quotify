@@ -1,0 +1,131 @@
+﻿
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="main-section  animate__animated animate__backInRight">
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-light d-flex flex-column justify-content-center slideronne">
+                <h1 class="text-light" style=" font-family: 'Merienda', cursive;">EventEats Quotify</h1>
+                <p class="fs-5 ">Best Caterers In Pakistan</p>
+             <p class="text-grey">At EventEats Quotify, we deliver exceptional culinary experiences tailored to your event. From intimate gatherings to grand celebrations, our expert team crafts exquisite dishes with fresh ingredients and a passion for excellence. Trust us to make your occasion unforgettable.</p>
+            <div>
+                  @*   <a  class="btn btn-dark bg-pink-menu" asp-controller="Account" asp-action="Login">Order Now</a> *@
+                </div>
+        </div>
+         <div class="col-md-6 d-flex flex-column justify-content-center">
+             <div id="carouselExample" class="carousel slide">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active ">
+                      <img src="~/images/productone.png" class="d-block w-50 mx-auto"  alt="...">
+                    </div>
+                    <div class="carousel-item ">
+                      <img src="~/images/biryani.png " class="d-block w-50 mx-auto" alt="...">
+                    </div>
+                    <div class="carousel-item ">
+                      <img src="~/images/productone.png" class="d-block w-50 mx-auto" alt="...">
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>
+         </div>
+    </div>
+</div>
+
+</div>
+
+<div class="lowersection ">
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-12  main-section    animate__animated animate__backInLeft">
+                <h5 class="text-light mb-3 text-center text-menu-pink">Our Top Vendors</h5>
+                <section class="splide" aria-label="Splide Basic HTML Example">
+                    <div class="splide__track px-5" >
+                        <ul class="splide__list " id="vendorCards">                 
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Check if TempData contains the registration pending message
+            var registrationPendingMessage = "@TempData["RegistrationPendingMessage"]";
+            if (registrationPendingMessage) {
+                // Display the popup message
+                alert(registrationPendingMessage);
+            }
+        });
+        function loadVendors() {
+            $.ajax({
+                url: '@Url.Action("Vendors", "Home")',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    var vendorCardsContainer = $('#vendorCards');
+                    vendorCardsContainer.empty();
+
+                    if (data && data.length > 0) {
+                        var slideHtml = '';
+
+                        data.forEach(function (vendor) {
+                            var name = vendor.name || 'Name not available';
+                            var address = vendor.shopAddress || 'Address not available';
+                            var profilePicturePath = vendor.profilePicture ?
+                                "data:image/png;base64," + vendor.profilePicture :
+                                '/images/defaultimages/user.png';
+
+                            var cardHtml = `
+                                        <li class="splide__slide">
+                                            <div class="p-2 d-flex flex-column justify-content-center align-items-center">
+                                                <img src="${profilePicturePath}" class="mb-2" width="40%" alt="${name}" />
+                                                <p class="text-light">${name}</p>
+                                            </div>
+                                        </li>`;
+                            slideHtml += cardHtml;
+                        });
+
+                        vendorCardsContainer.append(slideHtml);
+
+                        // Initialize Splide after appending slides
+                        var splide = new Splide('.splide', {
+                            type: 'loop',
+                            perPage: 5,
+                            perMove: 1,
+                            autoplay: true,
+                        });
+
+                        splide.mount();
+                    } else {
+                        vendorCardsContainer.append('<p>No vendors found.</p>');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                    alert('An error occurred while fetching vendors.');
+                }
+            });
+        }
+
+        
+
+
+        $(document).ready(function () {
+            loadVendors();
+        });
+    </script>
+}

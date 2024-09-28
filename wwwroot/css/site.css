@@ -1,0 +1,278 @@
+@import url("https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap");
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/restaurant.jpg') no-repeat center center fixed;
+    background-size: cover; /* Ensures the image covers the viewport */
+    background-color: #f8f9fa; /* Light gray background to ensure color consistency */
+    font-family: Arial, sans-serif; /* Change to your preferred font */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-y: scroll;
+}
+
+footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+a{
+    text-decoration: none !important;
+    
+}
+
+.text-grey {
+    color: #808080 !important;
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+
+
+
+/*body {
+  margin-bottom: 60px;
+}*/
+
+.text-pink{
+    color:#ff1448;
+
+}
+.bg-pink-menu {
+    background-color: #ff1448 !important;
+    transition: .5s ease;
+}
+    .bg-pink-menu:hover {
+        background-color: #dc3545 !important;
+        color: white
+    }
+.text-pink-menu {
+    color: #ff1448 !important;
+}
+
+.nav-link{
+    letter-spacing:2px;
+}
+#carouselExampleSlidesOnly{
+    /*height:50%;*/
+    width:100%;
+}
+.row-carousel{
+    width:100%
+}
+
+.container {
+    flex: 1;
+}
+/*footer {
+    background-color: #FFB4B4;
+  
+
+    width: 100%;
+    background-color: #333;  Adjust the background color as needed 
+
+    padding: 20px;
+}*/
+header{
+    z-index:1000;
+}
+
+.dishCard{
+    height:250px;
+}
+
+.validation-summary-errors li{
+    color:#dc3545;
+}
+
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 2rem;
+    /* background-image: url('/images/carouselImages/Pizza-650x500.jpg'); */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+}
+
+.text-pink {
+    color: #ff69b4;
+}
+
+.btn-dark {
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.form-group {
+    margin-bottom: 2rem; /* Adjust margin between form fields */
+}
+/* Navbar styles */
+.custom-navbar .navbar {
+    background-color: #ffffff; /* White background */
+    border-bottom: 1px solid #dddddd; /* Gray border bottom */
+    padding: 10px 0; /* Adjust padding as needed */
+}
+
+.custom-navbar .navbar-nav .nav-link {
+    color: #333333; /* Dark text color */
+    font-weight: bold; /* Bold font weight */
+    margin-right: 15px; /* Add some space between links */
+}
+
+
+
+
+
+#btn-success-color{
+    color:#fff !important;
+}
+
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.5); /* Add a semi-transparent background */
+    z-index: 9999; /* Ensure it's above other content */
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+
+
+.food-item-image-container {
+    width: 100%;
+    height: 200px; /* Adjust height as needed */
+    overflow: hidden;
+}
+
+.food-item-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Maintain aspect ratio */
+}
+
+.modal-body {
+    max-height: 70vh; /* Adjust max height of modal body */
+    overflow-y: auto; /* Enable vertical scroll if content exceeds max height */
+}
+
+
+.main-section {
+    background-color: rgba( 0, 0, 0, 0.7 );
+    border-radius: 7px;
+    padding: 15px;
+    margin: 30px 0px;
+  height: auto;
+   
+}
+
+.slideronne{
+    height: 50vh ;
+}
+.mycard{
+
+}
+
+.lowersection{
+    height: 20vh;
+}
+
+
+
+.login-page{
+    height:80vh;
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customerprofile{
+    width:500px;
+}
+
+.comparison-header {
+    padding: 0px  30px;
+}
+
+marquee {
+    z-index: 1001;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+@media screen and (max-width: 786px) {
+    .cdb{
+        display: flex;
+        flex-direction: column;
+    }
+    .vendorsection{
+        display:none;
+      
+    }
+    .vendorimg {
+        display: flex;
+        flex-direction: column;
+    }
+    .fsml{
+        visibility: hidden !important;
+    }
+
+
+    .footertext{
+        text-align: center !important;
+    }
+
+
+    .feedback{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .loginmobile{
+        width: 85vw !important;
+    }
+    .comparison-header{
+        padding: 0 !important;
+    }
+
+    .lowersection{
+        displaynone;
+    }
+    marquee{
+        display: none;
+    }
+}

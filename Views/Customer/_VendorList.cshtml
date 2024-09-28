@@ -1,0 +1,71 @@
+﻿@model List<EventEatsQuotify.Models.ApplicationUser>
+
+<div class="row my-5">
+    @foreach (var vendor in Model)
+    {
+        <div class=" col-md-3 my-2 ">
+            <div class="main-section py-3 mx-0 h-100 shadow">
+                <div class="card-header d-flex justify-content-center align-items-center">
+                    <input type="checkbox" class="vendor-checkbox" data-vendor-id="@vendor.Id"> <span class="text-light mx-2">Select Vendor</span>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                @if (vendor.ProfilePicture != null && vendor.ProfilePicture.Length > 0)
+                {
+                    <img src="data:image/png;base64,@Convert.ToBase64String(vendor.ProfilePicture)" class="custom-card-img-top my-2" alt="Profile Image">
+                }
+                else
+                {
+                    <img src="~/images/defaultimages/user.png" class="custom-card-img-top my-2" alt="Profile Image">
+                }
+                </div>
+                <div class=" text-light">
+                    <h5 class=" text-light text-center my-2">@vendor.Name</h5>
+                    
+                </div>
+                <div class="card-footer d-flex flex-column justify-content-between align-items-center">
+                    <div class="mb-3">
+                        <button type="button" class="custom-btn btn-dark bg-pink-menu" onclick="loadVendorProfile('@vendor.Id')">View Profile</button>
+                        <button type="button" class="custom-btn btn-secondary bg-pink-menu" onclick="loadMenuItems('@vendor.Id')">View Menu Items</button>
+                    </div>
+                    <div>
+                        <a href="@Url.Action("GetQuotation", "Customer", new { vendorId = vendor.Id })" class="custom-btn btn-secondary btn-sm">Get Quotation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals for Vendor Profile and Menu -->
+        <div class="modal fade" id="vendorProfileModal-@vendor.Id" tabindex="-1" aria-labelledby="vendorProfileModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title" id="vendorProfileModalLabel">@vendor.Name Profile</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="vendorProfileModalContent-@vendor.Id"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="vendorMenuModal-@vendor.Id" tabindex="-1" aria-labelledby="vendorMenuModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content ">
+                    <div class="modal-header bg-dark text-white">
+                        <h5 class="modal-title" id="vendorMenuModalLabel">@vendor.Name Menu</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" id="vendorMenuModalContent-@vendor.Id"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="loader" class="d-none">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+</div>
